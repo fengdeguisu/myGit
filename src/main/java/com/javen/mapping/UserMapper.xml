@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.javen.dao.IUserDao" >
+  <resultMap id="BaseResultMap" type="com.javen.model.User" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="PICTURE_ID" property="pictureId" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_NAME, PICTURE_ID, AGE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from USER_T
+    where ID = #{_parameter}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from USER_T
+    where ID = #{_parameter}
+  </delete>
+  <insert id="insert" parameterType="com.javen.model.User" >
+    insert into USER_T (ID, USER_NAME, PICTURE_ID, 
+      AGE)
+    values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{pictureId,jdbcType=VARCHAR}, 
+      #{age,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.javen.model.User" >
+    insert into USER_T
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="pictureId != null" >
+        PICTURE_ID,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureId != null" >
+        #{pictureId,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.javen.model.User" >
+    update USER_T
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureId != null" >
+        picture_id = #{pictureId,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.javen.model.User" >
+    update USER_T
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      picture_id = #{pictureId,jdbcType=VARCHAR},
+      AGE = #{age,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
